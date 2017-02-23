@@ -3,27 +3,20 @@ const path    = require('path'),
 
 module.exports = {
   cache: !0,
-  //入口
   entry: {
-    'main': path.resolve(__dirname, 'apps/main.js')
+    'main': path.resolve(__dirname, 'apps/main.jsx')
   },
-  //出口
   output: {
     publicPath: '',
     filename: '[name].min.js?[hash]',
   },
-  //加载器
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
-        //以下文件不参与js编译
         exclude: [
-                  /node_modules/,
-                  path.resolve(__dirname,'plugins/jquery'),
-                  path.resolve(__dirname,'plugins/tools'),
-                  path.resolve(__dirname,'plugins/mobile/zepto.min.js'),
-                ],
+                  /node_modules/
+                 ],
         loaders: ['es3ify-loader',"babel-loader?presets[]=es2015"],
       },
       {
@@ -32,7 +25,6 @@ module.exports = {
       },
       {
         test: /\.(jpg|png|jpeg|svg|gif)$/,
-        //小于8172b的将压缩成base64格式大于则保存至output下的path下的制定目录
         loader: 'url-loader?limit=8172&name=[name].[ext]',
       },
     ]
@@ -48,7 +40,6 @@ module.exports = {
       'tools': path.join(__dirname,'plugins/tools'),
     }
   },
-  //插件
   plugins: [
         new webpack.optimize.DedupePlugin(),
         new webpack.ProvidePlugin({
