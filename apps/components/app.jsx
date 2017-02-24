@@ -1,9 +1,13 @@
 import React from 'react';
-import Tit from './Tit.jsx';
+// import Test from './Test.jsx';
+import NavSide from 'navSide/index.jsx';
+
+require('../css/reset.css');
 
 class App extends React.Component
 {
-	constructor(props) {
+	constructor(props)
+	{
 	  super(props);
 
 	  this.state = {};
@@ -17,7 +21,7 @@ class App extends React.Component
 	render()
 	{
 		return (
-			<Tit />
+			<NavSide />
 			);
 	}
 }

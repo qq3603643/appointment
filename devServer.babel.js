@@ -8,7 +8,7 @@ const OpenBrowserPlugin = require('open-browser-webpack-plugin'),  //打开窗�
       HtmlWebpackPlugin = require('html-webpack-plugin');  //html打包
 
 //
-const NET_PORT = '2333';
+const NET_PORT = '9999';
 var   SERVER_CFG;
 
 //动态生成html&&生成项目路径&&自动打开窗口的地址

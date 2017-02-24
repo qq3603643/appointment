@@ -10,5 +10,25 @@
 </head>
 <body>
 	<div id="root"></div>
+	<script type="text/javascript">
+
+		window.$GLOBALCONFIG = {};
+
+		void function(global)
+		{
+			//serverpath
+			global.$ctx = 'http://localhost:8888';
+
+			//导航数据 一二级
+			global.$NAVIGATION = [
+				{
+					name: '',
+					icon: '',
+					children: []
+				}
+			];
+
+		}(window.$GLOBALCONFIG);
+	</script>
 </body>
 </html>

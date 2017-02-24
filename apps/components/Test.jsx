@@ -1,7 +1,7 @@
 import React from 'react';
 import changeTit from '../actions/changeTit.jsx';
 
-class Tit extends React.Component
+class Test extends React.Component
 {
 	constructor(props) {
 	  super(props);
@@ -17,9 +17,9 @@ class Tit extends React.Component
 	}
 }
 
-Tit.contextTypes =
+Test.contextTypes =
 {
 	store: React.PropTypes.object.isRequired
 }
 
-export default Tit;
+export default Test;
