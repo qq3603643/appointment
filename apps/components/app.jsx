@@ -1,6 +1,7 @@
 import React from 'react';
 // import Test from './Test.jsx';
-import NavSide from 'navSide/index.jsx';
+import NavSide from './navSide/index.jsx';
+import Content from './content/index.jsx';
 
 require('../css/reset.css');
 
@@ -21,7 +22,10 @@ class App extends React.Component
 	render()
 	{
 		return (
-			<NavSide />
+			<div className="wrapper">
+				<NavSide />
+				<Content />
+			</div>
 			);
 	}
 }

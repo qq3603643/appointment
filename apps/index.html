@@ -11,7 +11,9 @@
 <body>
 	<div id="root"></div>
 	<script type="text/javascript">
-
+/**
+	config 正式环境将通过后台模板引擎生成
+*/
 		window.$GLOBALCONFIG = {};
 
 		void function(global)
@@ -19,12 +21,30 @@
 			//serverpath
 			global.$ctx = 'http://localhost:8888';
 
+			global.$LOGOINFO = {
+				logoSrc: '../../pics/psb.jpg',
+				versonDes: 'I Am Cool! And You?'
+			};
+
 			//导航数据 一二级
 			global.$NAVIGATION = [
 				{
-					name: '',
-					icon: '',
-					children: []
+					name: 'YW Tools',
+					iconType: 'calculator',
+					children: [
+						{
+							name: 'meeting room manager'
+						}
+					]
+				},
+				{
+					name: 'YW Tools2',
+					iconType: 'calculator',
+					children: [
+						{
+							name: 'meeting room manager2'
+						}
+					]
 				}
 			];
 

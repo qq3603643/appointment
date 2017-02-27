@@ -1,0 +1,18 @@
+.content
+{
+	height: 100%;
+	min-height: 100vh;
+	background-color: #ececec;
+	.hearder
+	{
+		height: 40px;line-height: 40px;
+		font-size: 16px;
+		text-indent: 10px;
+		color: #ccc;
+		background-color: #2CC1E5;
+	}
+	.ct-ct
+	{
+		overflow: hidden;
+	}
+}
