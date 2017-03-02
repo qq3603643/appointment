@@ -10,6 +10,8 @@
 </head>
 <body>
 	<div id="root"></div>
+
+	<script type="text/javascript" src="http://localhost:3333/socket.io/socket.io.js"></script>
 	<script type="text/javascript">
 /**
 	config 正式环境将通过后台模板引擎生成
@@ -19,11 +21,10 @@
 		void function(global)
 		{
 			//serverpath
-			global.$ctx = 'http://localhost:8888';
+			global.$ctx = 'http://localhost:3333';
 
 			global.$LOGOINFO = {
-				logoSrc: '../../pics/psb.jpg',
-				versonDes: 'I Am Cool! And You?'
+				logoSrc: '../../pics/psb.jpg'
 			};
 
 			//导航数据 一二级

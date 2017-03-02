@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu, Icon, Switch } from 'antd';
-import TopLogo from './topLogo.jsx';
+import Loginfo from './loginfo.jsx';
 
 require('./index.css');
 
@@ -47,7 +47,7 @@ class NavSide extends React.Component
          	})
     return (
       <div className="sideBar">
-      	<TopLogo />
+      	<Loginfo />
         <Menu
           theme={this.state.theme}
           onClick={this.handleClick.bind(this)}

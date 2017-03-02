@@ -19,8 +19,16 @@
 		}
 		.info
 		{
-			padding: 20px;
+			padding: 20px 10px 0px;
 			overflow: hidden;
+			& > span
+			{
+				display: block;
+				.onlineCount
+				{
+					color: green;
+				}
+			}
 		}
 	}
 }
