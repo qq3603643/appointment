@@ -1,6 +1,17 @@
 /*
 	房间预约信息滚动
 **/
+@keyframes scroll
+{
+	0%
+	{
+		transform: translate3d(0, 0, 0);
+	}
+	100%
+	{
+		transform: translate3d(0, -50%, 0);
+	}
+}
 .content
 {
 	height: 100%;
@@ -37,8 +48,9 @@
 					margin-bottom: 10px;
 					line-height: 50px;
 				}
-				.detail
+				& > .detail
 				{
+					height: 158px;
 					overflow: hidden;
 					.chart
 					{
@@ -47,23 +59,44 @@
 					}
 					.text
 					{
+						position: relative;
 						height: 120px;
 						/* 24*5*/
 						overflow: hidden;
-						.piece
+						.animate-box
 						{
-							line-height: 24px;
-							.time
+							&.scroll
 							{
-								float: left;
+								animation: scroll 10s infinite linear;
 							}
-							.name
+							.piece
 							{
-								display: block;
-								padding-right: 10px;
-								text-align: right;
-								overflow: hidden;
+								line-height: 24px;
+								.time
+								{
+									float: left;
+								}
+								.name
+								{
+									display: block;
+									padding-right: 10px;
+									text-align: right;
+									overflow: hidden;
+								}
 							}
+						}
+					}
+					.detail
+					{
+						float: right;
+						padding: 10px;
+						color: rgb(69, 137, 148);
+						cursor: pointer;
+						-webkit-user-select: none;
+						user-select: none;
+						&:hover
+						{
+							text-decoration: underline;
 						}
 					}
 				}

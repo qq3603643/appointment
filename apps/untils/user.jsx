@@ -1,3 +1,6 @@
+import { error } from '../untils/message.jsx';
+
+const ERROR_INFO = `你可能进入了一个假的网站，请刷新试试看 ,,Ծ‸Ծ,,`;
 
 function createid()
 {
@@ -5,7 +8,15 @@ function createid()
 }
 function createsocket()
 {
-	return io.connect(window.$GLOBALCONFIG.$ctx);
+	try
+	{
+		return io.connect(window.$GLOBALCONFIG.$ctx);
+	}
+	catch(er)
+	{
+		error(ERROR_INFO, 1e10);
+	}
+
 }
 function User()
 {

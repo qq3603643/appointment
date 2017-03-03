@@ -1,5 +1,7 @@
 import React from 'react';
-import { Progress, Button } from 'antd';
+import { Progress, Button, Icon } from 'antd'
+import {  getallroom } from '../../actions/room.jsx';
+import roomContainer from '../../untils/room.jsx';
 
 class RoomItem extends React.Component
 {
@@ -9,50 +11,72 @@ class RoomItem extends React.Component
 
 	  this.state = {};
 	}
+	componentWillMount()
+	{
+		this.context.store.dispatch(getallroom());
+	}
 	render()
 	{
-		const house = this.props.house;
+		const house = this.props.house,
+			  store = this.context.store,
+			  rooms = store.getState().rooms;
 
+		if(rooms.length)	roomContainer.rooms = [].concat(rooms);
+
+		let _rooms = roomContainer.groupByid(),
+			_rests = roomContainer.resttimeByid(),
+			_current_room = _rooms[house.roomid] || [],
+			_current_use = typeof _rests[house.roomid] != undefined ? (100 - Math.round(_rests[house.roomid]*1e4)/1e2) : 0;
+
+		let _style = {};
+		if(_current_room.length > 5)
+		{
+			_style = { animation: `${ _current_room.length*2 }s infinite scroll linear` }
+			_current_room = _current_room.concat(_current_room);
+		}
 		return (
 			<li className="room">
 				<h2 className="roomname">{ house.roomname }</h2>
 				<div className="detail">
+
 					<div className="chart">
-						<Progress type="circle" percent={ 76 } />
+						<Progress type="circle"
+								  status={ _current_use > 70 ? 'exception' : '' }
+							      percent={ Math.min(_current_use, 100) }
+							      format={ (percent) => { return percent < 100 ? `${percent}%` : '已满' }}
+				        />
 					</div>
 					<div className="text">
-						<p className="piece">
-							<span className="time">14:00~15:00</span>
-							<span className="name">小黑</span>
-						</p>
-						<p className="piece">
-							<span className="time">8:00~9:00</span>
-							<span className="name">小明</span>
-						</p>
-						<p className="piece">
-							<span className="time">11:00~12:00</span>
-							<span className="name">小方</span>
-						</p>
-						<p className="piece">
-							<span className="time">14:00~15:00</span>
-							<span className="name">小黑</span>
-						</p>
-						<p className="piece">
-							<span className="time">14:00~15:00</span>
-							<span className="name">小黑</span>
-						</p>
-						<p className="piece">
-							<span className="time">14:00~15:00</span>
-							<span className="name">小黑</span>
-						</p>
+						<div className="animate-box" style={ _style }>
+							{
+								_current_room.map((room, i) =>
+								{
+									return (
+										<p className="piece">
+											<span className="time">{room.starttime}~{room.endtime}</span>
+											<span className="name">{room.username}</span>
+										</p>
+										);
+								})
+							}
+						</div>
 					</div>
+					<p className="detail">
+						Details<Icon type="rollback" />
+					</p>
+
 				</div>
 				<div className="btn-group">
-					<Button type="primary">我要预定</Button>
+					<Button type="primary" data-roomid={ house.roomid }>我要预定</Button>
 				</div>
 			</li>
 			);
 	}
+}
+
+RoomItem.contextTypes =
+{
+	store: React.PropTypes.object.isRequired
 }
 
 export default RoomItem;

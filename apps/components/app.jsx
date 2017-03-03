@@ -2,6 +2,7 @@ import React from 'react';
 // import Test from './Test.jsx';
 import NavSide from './navSide/index.jsx';
 import Content from './content/index.jsx';
+import FormContainer from './addroomform/index.jsx';
 
 require('../css/reset.css');
 
@@ -25,6 +26,7 @@ class App extends React.Component
 			<div className="wrapper">
 				<NavSide />
 				<Content />
+				<FormContainer />
 			</div>
 			);
 	}
