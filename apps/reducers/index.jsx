@@ -18,6 +18,14 @@ const reducer = (state, order) =>
 		case 'Change_Tit':
 			return Object.assign({}, state, { data: order.data });
 			break;
+		case 'formvisible_control':
+			return Object.assign({}, state, { form: order.form })
+			break;
+		case 'addroom_watch':
+			let _rooms = state.rooms;
+
+			_rooms.push(order.addroom);
+			return Object.assign({}, state, { rooms: _rooms });
 		default :
 			return state;
 	}

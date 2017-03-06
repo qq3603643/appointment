@@ -1,5 +1,6 @@
 import { fetchJSONByPost, fetchJSONByGet } from '../untils/ajax.jsx';
 import { error } from '../untils/message.jsx';
+import { toMinutes } from '../untils/common.jsx';
 
 const ERROR_INFO = `你可能进入了一个假的网站，请刷新试试看 ,,Ծ‸Ծ,,`;
 
@@ -17,7 +18,8 @@ const getallhouse = () =>
 		   	 	 	error(ERROR_INFO);
 		   	 	 	return;
 		   	 	 }
-			   	 dispatch({ type: 'houses_getall', houses: da.data })
+
+			   	 dispatch({ type: 'houses_getall', houses: da.data.sort((a, b)=>a.roomid-b.roomid) })
 			   })
 	}
 }
@@ -36,12 +38,21 @@ const getallroom = () =>
 	       			 error(ERROR_INFO);
 	       			 return;
 	       		 }
-	       		 dispatch({ type: 'rooms_getall', rooms: da.data })
+	       		 dispatch({ type: 'rooms_getall', rooms: da.data.sort((a, b)=>toMinutes(a.starttime)-toMinutes(b.starttime)) })
 		       })
+	}
+}
+
+const addroomwatch = (o) =>
+{
+	return (dispatch, getState) =>
+	{
+		dispatch({ type: 'addroom_watch', addroom: o });
 	}
 }
 
 export {
 	getallhouse,
-	getallroom
+	getallroom,
+	addroomwatch
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Progress, Button, Icon } from 'antd'
 import {  getallroom } from '../../actions/room.jsx';
+import { formvisible } from '../../actions/form.jsx';
 import roomContainer from '../../untils/room.jsx';
 
 class RoomItem extends React.Component
@@ -15,6 +16,12 @@ class RoomItem extends React.Component
 	{
 		this.context.store.dispatch(getallroom());
 	}
+	showform(ev)
+	{
+		const store = this.context.store;
+
+		store.dispatch(formvisible(!0, ev.currentTarget.getAttribute('data-roomid')));
+	}
 	render()
 	{
 		const house = this.props.house,
@@ -26,7 +33,7 @@ class RoomItem extends React.Component
 		let _rooms = roomContainer.groupByid(),
 			_rests = roomContainer.resttimeByid(),
 			_current_room = _rooms[house.roomid] || [],
-			_current_use = typeof _rests[house.roomid] != undefined ? (100 - Math.round(_rests[house.roomid]*1e4)/1e2) : 0;
+			_current_use = !!_rests[house.roomid] ? (100 - Math.round(_rests[house.roomid]*1e4)/1e2) : 0;
 
 		let _style = {};
 		if(_current_room.length > 5)
@@ -67,7 +74,7 @@ class RoomItem extends React.Component
 
 				</div>
 				<div className="btn-group">
-					<Button type="primary" data-roomid={ house.roomid }>我要预定</Button>
+					<Button type="primary" data-roomid={ house.roomid } onClick={ this.showform.bind(this) }>我要预定</Button>
 				</div>
 			</li>
 			);

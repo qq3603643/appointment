@@ -5,7 +5,7 @@ import thunk from 'redux-thunk';
 import reducer from '../reducers/index.jsx';
 
 let logger = createLogger();
-let inital_State = { users:{ self: '', onlineCount: 0 }, rooms: [], houses: [], form:{ visible:!0, roomid: '0' } };
+let inital_State = { users:{ self: '', onlineCount: 0 }, rooms: [], houses: [], form:{ visible:!1, roomid: '0' } };
 
 const store = createStore(
 				reducer,

@@ -39,6 +39,14 @@ User.prototype =
 	watchlogout: function(cb)
 	{
 		this.socket.on('logout', cb)
+	},
+	addroom: function(data)
+	{
+		this.socket.emit('addroom', data);
+	},
+	watchroom: function(cb)
+	{
+		this.socket.on('addroom', cb);
 	}
 }
 
