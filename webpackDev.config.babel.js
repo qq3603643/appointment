@@ -27,13 +27,14 @@ Config = {
     postcss: config.postcss,
       //简便设置
     resolve: config.resolve,
-    plugins: config.plugins.concat(
-                new webpack.DefinePlugin({
-                  "process.env": {
-                     NODE_ENV: JSON.stringify("production")
-                   }
-                })
-            ),
+    // plugins: config.plugins.concat(
+    //             new webpack.DefinePlugin({
+    //               "process.env": {
+    //                  NODE_ENV: JSON.stringify("production")
+    //                }
+    //             })
+    //         ),
+    plugins: config.plugins,
     watch: !0,
     cache: !0,
     debug: !0

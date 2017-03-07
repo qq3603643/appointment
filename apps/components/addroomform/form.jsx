@@ -4,6 +4,7 @@ import { error } from '../../untils/message.jsx';
 import room from '../../untils/room.jsx';
 import { formvisible } from '../../actions/form.jsx';
 import user from '../../untils/user.jsx';
+import { toMinutes } from '../../untils/common.jsx';
 
 class From extends React.Component
 {
@@ -62,18 +63,20 @@ class From extends React.Component
 		}
 		if(!state_form.starttime)
 		{
-			error('fill the starttime');
+			error('fill the starttime, please');
 			return;
 		}
 		if(!state_form.endtime)
 		{
-			error('fill the endtime');
+			error('fill the endtime, please');
 			return;
 		}
 
-		/*
-			检测是否已有 jump now
-		**/
+		if(toMinutes(state_form.starttime) >= toMinutes(state_form.endtime))
+		{
+			error('starttime must be smaller than endtime, please');
+			return;
+		}
 
 		const roomitem = Object.assign({}, state_form, { roomid: state_global.form.roomid });
 		user.addroom(
@@ -103,7 +106,7 @@ class From extends React.Component
 				<dl className="form-item">
 					<dt className="label"><span className="required">*</span>starttime:</dt>
 					<dd className="control">
-		            	<TimePicker defaultValue={ '09:00' } format={format}
+		            	<TimePicker defaultValue={ this.state.starttime } format={format}
 		            				disabledHours={ this.disHour.bind(this) }
 		            			    onChange={ this.starttimeHandler.bind(this) }
 		            	/>
@@ -112,7 +115,7 @@ class From extends React.Component
 		        <dl className="form-item">
 		            <dt className="label"><span className="required">*</span>endtime:</dt>
 					<dd className="control">
-		            	<TimePicker defaultValue={ '18:00' } format={format}
+		            	<TimePicker defaultValue={ this.state.endtime } format={format}
 		            				disabledHours={ this.disHour.bind(this) }
 		            				onChange={ this.endtimeHandler.bind(this) }
 		            	/>

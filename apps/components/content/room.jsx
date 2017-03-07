@@ -33,7 +33,9 @@ class RoomItem extends React.Component
 		let _rooms = roomContainer.groupByid(),
 			_rests = roomContainer.resttimeByid(),
 			_current_room = _rooms[house.roomid] || [],
-			_current_use = !!_rests[house.roomid] ? (100 - Math.round(_rests[house.roomid]*1e4)/1e2) : 0;
+			_current_use = _rests.hasOwnProperty(house.roomid)
+						   ? 100 - Math.round(_rests[house.roomid]*1e4)/1e2
+						   : 0;
 
 		let _style = {};
 		if(_current_room.length > 5)
@@ -48,9 +50,9 @@ class RoomItem extends React.Component
 
 					<div className="chart">
 						<Progress type="circle"
-								  status={ _current_use > 70 ? 'exception' : '' }
+								  status={ _current_use > 70 ? 'exception' : 'normal' }
 							      percent={ Math.min(_current_use, 100) }
-							      format={ (percent) => { return percent < 100 ? `${percent}%` : '已满' }}
+							      format={ percent => percent < 100 ? `${percent}%` : '已满' }
 				        />
 					</div>
 					<div className="text">
@@ -59,7 +61,7 @@ class RoomItem extends React.Component
 								_current_room.map((room, i) =>
 								{
 									return (
-										<p className="piece">
+										<p className="piece" key={ i }>
 											<span className="time">{room.starttime}~{room.endtime}</span>
 											<span className="name">{room.username}</span>
 										</p>
@@ -74,7 +76,7 @@ class RoomItem extends React.Component
 
 				</div>
 				<div className="btn-group">
-					<Button type="primary" data-roomid={ house.roomid } onClick={ this.showform.bind(this) }>我要预定</Button>
+					<Button type="primary" data-roomid={ house.roomid } onClick={ this.showform.bind(this) }>To Appoint</Button>
 				</div>
 			</li>
 			);

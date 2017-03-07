@@ -47,6 +47,10 @@ User.prototype =
 	watchroom: function(cb)
 	{
 		this.socket.on('addroom', cb);
+	},
+	watcherror: function(cb)
+	{
+		this.socket.on('error_room', cb);
 	}
 }
 
