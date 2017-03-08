@@ -13,13 +13,13 @@
 		.logo
 		{
 			display: block;
-			width: 80px;height: 80px;
+			width: 60px;height: 60px;
 			border-radius: 50%;
 			float: left;
 		}
 		.info
 		{
-			padding: 20px 10px 0px;
+			padding: 6px 30px 0px;
 			overflow: hidden;
 			& > span
 			{

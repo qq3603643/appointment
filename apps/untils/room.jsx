@@ -1,12 +1,13 @@
 /*
 	roomitem { roomid, roomname, username, reason, startime, endtime }
 **/
+import { toMinutes } from './common.jsx';
 function Room(obj)
 {
 	this.rooms = [];
 	this.minTime = '09:00';
 	this.maxTime = '18:00';
-	this.totaltime = (18 - 9)*60;
+	this.totaltime = toMinutes(this.maxTime) - toMinutes(this.minTime);
 	Object.assign(this, obj);
 }
 
@@ -70,7 +71,7 @@ Room.prototype =
     	{
     		if(rooms.hasOwnProperty(k))
 			{
-				rooms[k] = Math.round(rooms[k] / total * 100) / 100;
+				rooms[k] = Math.round(rooms[k] / total * 1e4) / 1e4;
 			}
     	}
 

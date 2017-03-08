@@ -9,7 +9,7 @@ const login = () =>
 		user.watchlogin(da =>
 		{
 			if(da.userid == user.userid)
-				message.success(`第${ da.onlineCount }访客, welcome you.`);
+				message.success(`you are visitor ${ da.onlineCount }, welcome you.`);
 
 			dispatch({ type: 'login_watch', onlineCount: da.onlineCount });
 		})

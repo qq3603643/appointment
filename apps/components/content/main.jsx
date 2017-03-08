@@ -1,6 +1,6 @@
 import React from 'react';
 import { info } from '../../untils/message.jsx';
-import { getallhouse } from '../../actions/room.jsx';
+import { getallhouse, getallroom } from '../../actions/room.jsx';
 import RoomItem from './room.jsx';
 
 class Main extends React.Component
@@ -16,6 +16,7 @@ class Main extends React.Component
 		const store = this.context.store;
 
 		store.dispatch(getallhouse());
+		store.dispatch(getallroom());
 	}
 	render()
 	{

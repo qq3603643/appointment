@@ -2,7 +2,7 @@ import React from 'react';
 import Hearder from './hearder.jsx';
 import Main from './main.jsx';
 import user from '../../untils/user.jsx';
-import { addroomwatch } from '../../actions/room.jsx';
+import { addroom } from '../../actions/room.jsx';
 import { error } from '../../untils/message.jsx';
 import * as notification from '../../untils/notification.jsx';
 
@@ -58,7 +58,7 @@ class Content extends React.Component
 					})
 			}
 
-			store.dispatch(addroomwatch(da.roomitem));
+			store.dispatch(addroom(da.roomitem));
 		})
 
 		user.watcherror((da) =>

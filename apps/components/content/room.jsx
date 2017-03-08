@@ -1,8 +1,8 @@
 import React from 'react';
-import { Progress, Button, Icon } from 'antd'
-import {  getallroom } from '../../actions/room.jsx';
+import { Progress, Button, Icon, Popover } from 'antd'
 import { formvisible } from '../../actions/form.jsx';
 import roomContainer from '../../untils/room.jsx';
+import { toMinutes, getHourMin, isoverlap } from '../../untils/common.jsx';
 
 class RoomItem extends React.Component
 {
@@ -10,17 +10,46 @@ class RoomItem extends React.Component
 	{
 	  super(props);
 
-	  this.state = {};
+	  this.state =
+	  {
+	  	roomid: '#{ roomid }',
+	  	username: '#{ username }',
+	  	starttime: '#{ starttime }',
+	  	endtime: '#{ endtime }'
+	  };
 	}
 	componentWillMount()
 	{
-		this.context.store.dispatch(getallroom());
+		this.setState({ roomid: this.props.house.roomid })
 	}
 	showform(ev)
 	{
 		const store = this.context.store;
 
 		store.dispatch(formvisible(!0, ev.currentTarget.getAttribute('data-roomid')));
+	}
+	popovervisible(visible)
+	{
+		/* show **/
+		if(visible)
+		{
+			let rooms = roomContainer.groupByid()[this.state.roomid] || [],
+			    now   = getHourMin(),
+			    _o    = { username: '暂无', starttime: '00:00', endtime: '00:00' },
+			    i     = 0,
+			    roomitem;
+
+			while(roomitem = rooms[i++])
+			{
+				if(isoverlap(toMinutes(now), toMinutes(roomitem.starttime), toMinutes(roomitem.endtime)))
+				{
+					_o = Object.assign(_o, { username: roomitem.username, starttime: roomitem.starttime, endtime: roomitem.endtime });
+					break;
+				}
+			}
+
+			this.setState(_o);
+		}
 	}
 	render()
 	{
@@ -34,7 +63,7 @@ class RoomItem extends React.Component
 			_rests = roomContainer.resttimeByid(),
 			_current_room = _rooms[house.roomid] || [],
 			_current_use = _rests.hasOwnProperty(house.roomid)
-						   ? 100 - Math.round(_rests[house.roomid]*1e4)/1e2
+						   ? Math.round((100 - _rests[house.roomid]*1e2)*1e2) / 1e2
 						   : 0;
 
 		let _style = {};
@@ -71,7 +100,13 @@ class RoomItem extends React.Component
 						</div>
 					</div>
 					<p className="detail">
-						Details<Icon type="rollback" />
+						<Popover title={ this.state.username }
+								 content={ `${this.state.starttime}~${this.state.endtime}` }
+								 onVisibleChange={ this.popovervisible.bind(this) }>
+							<Button type="dashed"
+									icon="question-circle-o"
+							>who using</Button>
+						</Popover>
 					</p>
 
 				</div>
