@@ -64,6 +64,7 @@
   },
   "scripts": {
     "build": "webpack --display-error-details --config webpackBuild.config.babel.js",
+    "transfer": "node watch_transfer.babel.js",
     "start": "node devServer.babel.js"
   }
 }
