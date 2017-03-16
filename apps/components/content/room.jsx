@@ -105,13 +105,13 @@ class RoomItem extends React.Component
 								 onVisibleChange={ this.popovervisible.bind(this) }>
 							<Button type="dashed"
 									icon="question-circle-o"
-							>who using</Button>
+							>谁在用?</Button>
 						</Popover>
 					</p>
 
 				</div>
 				<div className="btn-group">
-					<Button type="primary" data-roomid={ house.roomid } onClick={ this.showform.bind(this) }>To Appoint</Button>
+					<Button type="primary" data-roomid={ house.roomid } onClick={ this.showform.bind(this) }>我要预定</Button>
 				</div>
 			</li>
 			);

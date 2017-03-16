@@ -4,7 +4,7 @@ import { error } from '../../untils/message.jsx';
 import room from '../../untils/room.jsx';
 import { formvisible } from '../../actions/form.jsx';
 import user from '../../untils/user.jsx';
-import { toMinutes } from '../../untils/common.jsx';
+import { toMinutes, getHourMin, addMin } from '../../untils/common.jsx';
 
 class From extends React.Component
 {
@@ -16,8 +16,14 @@ class From extends React.Component
 	  {
 	  	 roomid: '',
 	  	 username: '',
-	  	 starttime: '09:00',
-	  	 endtime: '18:00',
+	  	 starttime: (() =>
+	  	 	{
+	  	 		return getHourMin();
+	  	 	})(),
+	  	 endtime: (() =>
+	  	 	{
+	  	 		return addMin(getHourMin(), 60);
+	  	 	})(),
 	  	 reason: ''
 	  };
 	}
@@ -58,23 +64,23 @@ class From extends React.Component
 
 		if(!state_form.username)
 		{
-			error('fill yourname, please');
+			error('请输入你的名字╮(╯_╰)╭');
 			return;
 		}
 		if(!state_form.starttime)
 		{
-			error('fill the starttime, please');
+			error('请输入开始时间╮(╯_╰)╭');
 			return;
 		}
 		if(!state_form.endtime)
 		{
-			error('fill the endtime, please');
+			error('请输入结束时间╮(╯_╰)╭');
 			return;
 		}
 
 		if(toMinutes(state_form.starttime) >= toMinutes(state_form.endtime))
 		{
-			error('starttime must be smaller than endtime, please');
+			error('结束时间需大于开始时间╮(╯_╰)╭');
 			return;
 		}
 
@@ -96,15 +102,15 @@ class From extends React.Component
 		return(
 			<Form>
 				<dl className="form-item">
-					<dt className="label"><span className="required">*</span>yourname:</dt>
+					<dt className="label"><span className="required">*</span>使用者:</dt>
 					<dd className="control">
-		            	<Input type="text" placeholder="yourname"
+		            	<Input type="text" placeholder="请输入你的名字"
 		            	       onChange={ this.usernameHandler.bind(this) }
             	        />
 					</dd>
 		        </dl>
 				<dl className="form-item">
-					<dt className="label"><span className="required">*</span>starttime:</dt>
+					<dt className="label"><span className="required">*</span>开始时间:</dt>
 					<dd className="control">
 		            	<TimePicker defaultValue={ this.state.starttime } format={format}
 		            				disabledHours={ this.disHour.bind(this) }
@@ -113,7 +119,7 @@ class From extends React.Component
 					</dd>
 		        </dl>
 		        <dl className="form-item">
-		            <dt className="label"><span className="required">*</span>endtime:</dt>
+		            <dt className="label"><span className="required">*</span>结束时间:</dt>
 					<dd className="control">
 		            	<TimePicker defaultValue={ this.state.endtime } format={format}
 		            				disabledHours={ this.disHour.bind(this) }
@@ -122,19 +128,19 @@ class From extends React.Component
 					</dd>
 		        </dl>
 		        <dl className="form-item">
-		        	<dt className="label">renson:</dt>
+		        	<dt className="label">使用缘由:</dt>
 					<dd className="control">
-		            	<Input type="textarea" rows={4} placeholder="your reason"
+		            	<Input type="textarea" rows={4} placeholder="预定原因"
 		            		   onChange={ this.reasonHandler.bind(this) }
 		            	/>
 					</dd>
 		        </dl>
 		        <p className="btn-group">
 		        	<Button onClick={ this.cancel.bind(this) } style={ {marginRight: '4px'} }>
-		        		Cancel
+		        		取消
 		        	</Button>
 		        	<Button type="primary" onClick={ this.submitHandler.bind(this) }>
-		        		Sumit
+		        		确定
 		        	</Button>
 		        </p>
 			</Form>

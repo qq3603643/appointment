@@ -12,7 +12,7 @@ class Hearder extends React.Component
 	{
 		return (
 			<div className="hearder">
-				system @ v 0.0.1
+				会议室预定系统 @ v 0.0.1
 			</div>
 			);
 	}
