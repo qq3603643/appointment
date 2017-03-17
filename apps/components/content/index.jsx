@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import Hearder from './hearder.jsx';
 import Main from './main.jsx';
 import user from '../../untils/user.jsx';
@@ -18,11 +20,10 @@ class Content extends React.Component
 	}
 	componentDidMount()
 	{
-		const store = this.context.store,
+		const { houses, _self, addroom } = this.props,
 			  findnamebyid = (roomid) =>
 			  {
-			  	let houses = store.getState().houses,
-			  		i = 0,
+			  	let i = 0,
 			  		house, name;
 
 		  		while(house = houses[i++])
@@ -43,7 +44,7 @@ class Content extends React.Component
 
 			switch(da.userid)
 			{
-				case store.getState().self:
+				case _self:
 					notification.success(
 					{
 						message: `主人,会议室预定成功啦 (●'◡'●)ﾉ♥`,
@@ -58,7 +59,7 @@ class Content extends React.Component
 					})
 			}
 
-			store.dispatch(addroom(da.roomitem));
+			addroom(da.roomitem);
 		})
 
 		user.watcherror((da) =>
@@ -99,9 +100,12 @@ class Content extends React.Component
 	}
 }
 
-Content.contextTypes =
-{
-	store: React.PropTypes.object.isRequired
-}
-
-export default Content;
+export default connect((state, props) =>
+	({
+		houses: state.appoint.houses,
+		_self: state.appoint.users.self
+	}),
+	(dispatch, ownProps) =>
+	({
+		addroom: (roomitem) => dispatch(addroom(roomitem)),
+	}))(Content);

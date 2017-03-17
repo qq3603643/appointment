@@ -14,12 +14,6 @@ class App extends React.Component
 
 	  this.state = {};
 	}
-	getChildContext()
-	{
-		return {
-			store: this.props.store
-		};
-	}
 	render()
 	{
 		return (
@@ -30,11 +24,6 @@ class App extends React.Component
 			</div>
 			);
 	}
-}
-
-App.childContextTypes =
-{
-	store: React.PropTypes.object.isRequired
 }
 
 export default App;

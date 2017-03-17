@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import { info } from '../../untils/message.jsx';
 import { getallhouse, getallroom } from '../../actions/room.jsx';
 import RoomItem from './room.jsx';
@@ -13,16 +15,14 @@ class Main extends React.Component
 	}
 	componentWillMount()
 	{
-		const store = this.context.store;
+		const { getallhouse, getallroom } = this.props;
 
-		store.dispatch(getallhouse());
-		store.dispatch(getallroom());
+		getallhouse();
+		getallroom();
 	}
 	render()
 	{
-		const store = this.context.store,
-			  state = store.getState(),
-			  houses = state.houses.sort((a, b)=>a.roomid-b.roomid);
+		const { houses } = this.props;
 
 		if(!houses.length)
 			return null;
@@ -42,8 +42,13 @@ class Main extends React.Component
 	}
 }
 
-Main.contextTypes =
-{
-	store: React.PropTypes.object.isRequired
-}
-export default Main;
+export default connect((state, props) =>
+	({
+		houses: state.appoint.houses
+	}),
+	(dispatch, ownProps) =>
+	({
+		getallhouse: () => dispatch(getallhouse()),
+		getallroom: () => dispatch(getallroom())
+	}),
+    )(Main);

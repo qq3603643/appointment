@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import Form from './form.jsx';
 
 require('./index.css');
@@ -13,10 +15,9 @@ class FormContainer extends React.Component
 	}
 	render()
 	{
-		const store = this.context.store,
-			  state = store.getState(),
-			  visible = state.form.visible,
+		const { visible } = this.props,
 			  style = { display: visible ? 'block' : 'none' };
+
 		return (
 				<div className="mask-form" style={ style }>
 					<div className="wrap-form">
@@ -28,9 +29,11 @@ class FormContainer extends React.Component
 	}
 }
 
-FormContainer.contextTypes =
-{
-	store: React.PropTypes.object.isRequired
-}
+export default connect((state, props) =>
+	({
+		visible: state.appoint.form.visible
+	}),
+	(dispatch, ownProps) =>
+	({
 
-export default FormContainer;
+	}))(FormContainer);

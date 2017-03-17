@@ -1,15 +1,20 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
+import { routerReducer } from 'react-router-redux';
 
-import reducer from '../reducers/index.jsx';
+import { reducer as appoint } from '../reducers/index.jsx';
 
 let logger = createLogger();
-let inital_State = { users:{ self: '', onlineCount: 0 }, rooms: [], houses: [], form:{ visible:!1, roomid: '0' } };
+
+let Reducer = combineReducers(
+	{
+		appoint,
+		routing: routerReducer
+	});
 
 const store = createStore(
-				reducer,
-				inital_State,
+				Reducer,
 				applyMiddleware(thunk, logger)
 			    );
 

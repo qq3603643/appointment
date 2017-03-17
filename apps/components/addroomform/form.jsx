@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import { Form, TimePicker, Input, Button } from 'antd';
 import { error } from '../../untils/message.jsx';
 import room from '../../untils/room.jsx';
@@ -45,9 +47,9 @@ class From extends React.Component
 	}
 	cancel()
 	{
-		const store = this.context.store;
+		const { formvisible } = this.props;
 
-		store.dispatch(formvisible(!1));
+		formvisible(!1)
 	}
 	submitHandler(ev)
 	{
@@ -59,8 +61,7 @@ class From extends React.Component
 		**/
 
 		let state_form = this.state,
-			store = this.context.store,
-			state_global = store.getState();
+			{ roomid, userid } = this.props;
 
 		if(!state_form.username)
 		{
@@ -84,10 +85,10 @@ class From extends React.Component
 			return;
 		}
 
-		const roomitem = Object.assign({}, state_form, { roomid: state_global.form.roomid });
+		const roomitem = Object.assign({}, state_form, { roomid: roomid });
 		user.addroom(
 			{
-				userid: state_global.self,
+				userid: userid,
 				roomitem: roomitem
 			});
 		this.cancel();
@@ -148,9 +149,12 @@ class From extends React.Component
 	}
 }
 
-From.contextTypes =
-{
-	store: React.PropTypes.object.isRequired
-}
-
-export default From;
+export default  connect((state, props) =>
+	({
+		userid: state.appoint.users.self,
+		roomid: state.appoint.form.roomid
+	}),
+	(dispatch, ownProps) =>
+	({
+		formvisible: () => dispatch(formvisible())
+	}))(From);

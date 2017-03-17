@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import { Progress, Button, Icon, Popover } from 'antd'
 import { formvisible } from '../../actions/form.jsx';
 import roomContainer from '../../untils/room.jsx';
@@ -24,9 +26,9 @@ class RoomItem extends React.Component
 	}
 	showform(ev)
 	{
-		const store = this.context.store;
+		const { formvisible } = this.props;
 
-		store.dispatch(formvisible(!0, ev.currentTarget.getAttribute('data-roomid')));
+		formvisible(!0, ev.currentTarget.getAttribute('data-roomid'));
 	}
 	popovervisible(visible)
 	{
@@ -54,8 +56,7 @@ class RoomItem extends React.Component
 	render()
 	{
 		const house = this.props.house,
-			  store = this.context.store,
-			  rooms = store.getState().rooms;
+			  { rooms } = this.props;
 
 		if(rooms.length)	roomContainer.rooms = [].concat(rooms);
 
@@ -118,9 +119,11 @@ class RoomItem extends React.Component
 	}
 }
 
-RoomItem.contextTypes =
-{
-	store: React.PropTypes.object.isRequired
-}
-
-export default RoomItem;
+export default connect((state, props) =>
+	({
+		rooms: state.appoint.rooms
+	}),
+	(dispatch, ownProps) =>
+	({
+		formvisible: (...args) => dispatch(formvisible(...args))
+	}))(RoomItem);
