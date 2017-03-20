@@ -6,6 +6,8 @@ import { formvisible } from '../../actions/form.jsx';
 import roomContainer from '../../untils/room.jsx';
 import { toMinutes, getHourMin, isoverlap } from '../../untils/common.jsx';
 
+import { hashHistory } from 'react-router';
+
 class RoomItem extends React.Component
 {
 	constructor(props)
@@ -22,10 +24,14 @@ class RoomItem extends React.Component
 	}
 	componentWillMount()
 	{
-		this.setState({ roomid: this.props.house.roomid })
+		this.setState({ roomid: this.props.house.roomid });
 	}
 	showform(ev)
 	{
+		hashHistory.push('login');
+
+		return;
+
 		const { formvisible } = this.props;
 
 		formvisible(!0, ev.currentTarget.getAttribute('data-roomid'));

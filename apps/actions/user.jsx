@@ -15,7 +15,7 @@ const login = () =>
 		})
 		user.watchlogout(da =>
 		{
-			dispatch({ type: 'login_watch', onlineCount: da.onlineCount });
+			dispatch({ type: 'logout_watch', onlineCount: da.onlineCount });
 		})
 	}
 }

@@ -4,7 +4,7 @@ const ERROR_INFO = `你可能进入了一个假的网站，请刷新试试看 ,,
 
 function createid()
 {
-	return new Date().getTime()+""+Math.floor(Math.random()*899+100);
+	return '_randomid'+new Date().getTime()+''+Math.floor(Math.random()*899+100);
 }
 function createsocket()
 {
@@ -29,8 +29,17 @@ User.prototype =
 	init: function()
 	{
 		this.userid = createid();
+		this.username = null;
 		this.socket = createsocket();
 		this.socket.emit('login', { userid: this.userid });
+	},
+	setid: function(userid)
+	{
+		this.userid = userid;
+	},
+	setname: function(username)
+	{
+		this.username = username;
 	},
 	watchlogin: function(cb)
 	{
@@ -38,7 +47,7 @@ User.prototype =
 	},
 	watchlogout: function(cb)
 	{
-		this.socket.on('logout', cb)
+		this.socket.on('logout', cb);
 	},
 	addroom: function(data)
 	{

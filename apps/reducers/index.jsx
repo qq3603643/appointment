@@ -1,5 +1,5 @@
 
-let inital_State = { users:{ self: '', onlineCount: 0 }, rooms: [], houses: [], form:{ visible:!1, roomid: '0' } };
+let inital_State = { users:{ self: '', selfname: '', onlineCount: 0 }, rooms: [], houses: [], form:{ visible:!1, roomid: '0' } };
 
 const reducer = (state = inital_State, order) =>
 {
@@ -7,10 +7,13 @@ const reducer = (state = inital_State, order) =>
 	switch(type)
 	{
 		case 'login':
-			return Object.assign({}, state, { users: { self: order.userid, onlineCount: state.users.onlineCount } })
+			return Object.assign({}, state, { users: Object.assign({}, state.users, { self: order.userid }) })
 			break;
 		case 'login_watch':
-			return Object.assign({}, state, { users: { self: state.users.self, onlineCount: order.onlineCount } })
+			return Object.assign({}, state, { users: Object.assign({}, state.users, { onlineCount: order.onlineCount }) })
+			break;
+		case 'logout_watch':
+			return Object.assign({}, state, { users: Object.assign({}, state.users, { onlineCount: order.onlineCount }) })
 			break;
 		case 'houses_getall':
 			return Object.assign({}, state, { houses: order.houses });
@@ -26,9 +29,10 @@ const reducer = (state = inital_State, order) =>
 			break;
 		case 'addroom_watch':
 
-			let _rooms = state.rooms;
+			let _rooms = state.rooms.concat();
 			_rooms.push(order.addroom);
 			return Object.assign({}, state, { rooms: _rooms });
+			break;
 		default :
 			return state;
 	}
