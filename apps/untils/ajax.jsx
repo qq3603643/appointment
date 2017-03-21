@@ -5,9 +5,12 @@ const API_PREFIX = window.$GLOBALCONFIG.$ctx;
 export function fetchJSON(url, params) {
   params = {
     ...params,
+    credentials: 'include',
     mode: 'cors',
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded"
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE',
+      'Content-Type': "application/x-www-form-urlencoded"
     }
   }
 

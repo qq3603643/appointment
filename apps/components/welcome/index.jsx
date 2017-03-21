@@ -10,6 +10,7 @@ import * as cookie from '../../untils/cookie.jsx';
 
 import user from '../../untils/user.jsx';
 import { fetchJSONByPost } from '../../untils/ajax.jsx';
+import { error } from '../../untils/message.jsx';
 
 require('./index.css');
 
@@ -78,6 +79,8 @@ class Welcome extends React.Component
 
 		if(!userid)
 		{
+			error(`系统检测到您尚未登录，可能无法使用某些功能 (-_-)/~~~`);
+			user.setrandomid().setrandomname();
 			this.toComplete(22)
 			    .then(() =>
 			    	{
@@ -88,25 +91,44 @@ class Welcome extends React.Component
 
 		//asyn fetch登录信息
 		let toComplete = this.toComplete.bind(this);
-		fetchJSONByPost('/loginCheck', { userid: userid, userid_random: _self })
+		fetchJSONByPost('/loginCheck', { userid: userid })
 			.then(res => res.json())
 			.then(da =>
 			{
 				if(da.status == 1)
 				{
-					console.log(da);
-
+					//judge login method, random or userid
+					if(da.data)
+						user.setid(da.data._id).setname(da.data.username).setdepartment(da.data.department);
+					else
+					{
+						user.setrandomid().setrandomname();
+						error(`同步用户信息失败，你可能需要重新登录 (-_-)/~~~`);
+					}
 				}
-				toComplete(22);
+				toComplete(22)
+				.then(() =>
+					{
+						hashHistory.push('home');
+					});
 			})
-			.catch((er) =>{ toComplete(22); })
+			.catch((er) =>
+			{
+				error(`同步用户信息失败，你可能需要重新登录 (-_-)/~~~`);
+				user.setrandomid().setrandomname();
+				toComplete(22)
+				.then(() =>
+					{
+						hashHistory.push('home');
+					});
+			})
 	}
 	render()
 	{
 		return (
 			<div className="loadwrap">
 				<h2 className="tit">
-					页面初始化中，请稍等片刻（＃￣▽￣＃）
+					用户信息同步中，请稍等片刻（＃￣▽￣＃）
 				</h2>
 				<Progress  percent={ this.state.load_precent } status="active" />
 			</div>

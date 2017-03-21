@@ -24,6 +24,16 @@
 		text-indent: 10px;
 		color: #ccc;
 		background-color: #2CC1E5;
+		.userInfo
+		{
+			float: right;
+			padding-right: 40px;
+			color: #e00;
+			.username
+			{
+				color: #333;
+			}
+		}
 	}
 	.ct-ct
 	{

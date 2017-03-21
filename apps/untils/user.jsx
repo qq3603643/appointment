@@ -28,18 +28,48 @@ User.prototype =
 	constructor: User,
 	init: function()
 	{
-		this.userid = createid();
+		this.userid = null;
 		this.username = null;
+		this.department = null;
 		this.socket = createsocket();
-		this.socket.emit('login', { userid: this.userid });
+		// this.socket.emit('login', { userid: this.userid });
+	},
+	setrandomid: function()
+	{
+		this.setid(createid());
+
+		return this;
+	},
+	setrandomname: function()
+	{
+		this.setname(`guest${ this.userid.substr(-4) }`);
+
+		return this;
 	},
 	setid: function(userid)
 	{
 		this.userid = userid;
+
+		return this;
 	},
 	setname: function(username)
 	{
 		this.username = username;
+
+		return this;
+	},
+	setdepartment: function(department)
+	{
+		this.department = department;
+
+		return this;
+	},
+	comein: function(userid)
+	{
+		this.setid(userid);
+		this.socket.emit('login', { userid: this.userid });
+
+		return this;
 	},
 	watchlogin: function(cb)
 	{

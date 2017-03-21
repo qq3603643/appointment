@@ -1,11 +1,12 @@
 
-let inital_State = { users:{ self: '', selfname: '', onlineCount: 0 }, rooms: [], houses: [], form:{ visible:!1, roomid: '0' } };
+let inital_State = { users:{ self: '', selfname: '', department: '', onlineCount: 0 }, rooms: [], houses: [], form:{ visible:!1, roomid: '0' } };
 
 const reducer = (state = inital_State, order) =>
 {
 	const { type } = order;
 	switch(type)
 	{
+		/* Abandoned **/
 		case 'login':
 			return Object.assign({}, state, { users: Object.assign({}, state.users, { self: order.userid }) })
 			break;
@@ -15,6 +16,22 @@ const reducer = (state = inital_State, order) =>
 		case 'logout_watch':
 			return Object.assign({}, state, { users: Object.assign({}, state.users, { onlineCount: order.onlineCount }) })
 			break;
+
+		/* new **/
+		case 'self_set':
+			return Object.assign({}, state, { users: Object.assign({}, state.users, { self: order.userid }) })
+			break;
+		case 'selfname_set':
+			return Object.assign({}, state, { users: Object.assign({}, state.users, { selfname: order.username }) })
+			break;
+		case 'onlineCount_set':
+
+			return Object.assign({}, state, { users: Object.assign({}, state.users, { onlineCount: order.onlineCount }) })
+			break;
+		case 'department_set':
+			return Object.assign({}, state, { users: Object.assign({}, state.users, { department: order.department }) })
+			break;
+
 		case 'houses_getall':
 			return Object.assign({}, state, { houses: order.houses });
 			break;

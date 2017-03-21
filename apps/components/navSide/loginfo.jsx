@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { hashHistory } from 'react-router';
 
-import { login } from '../../actions/user.jsx';
+import { setOnlineCount } from '../../actions/user.jsx';
+import { success } from '../../untils/message.jsx';
 
 const $LOGOINFO = window.$GLOBALCONFIG.$LOGOINFO;
 
@@ -12,10 +14,6 @@ class Loginfo extends React.Component
 	  super(props);
 
 	  this.state = {};
-	}
-	componentDidMount()
-	{
-		this.props.login();
 	}
 	render()
 	{
@@ -47,6 +45,5 @@ export default connect((state, props) =>
 	}),
     (dispatch, ownProps) =>
     ({
-    	login: () => dispatch(login())
     })
     )(Loginfo);
