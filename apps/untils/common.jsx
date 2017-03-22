@@ -37,3 +37,22 @@ export function isoverlap(n, min, max)
 {
 	return n >= min && n <= max;
 }
+
+export function sTrim(s)
+{
+	return s.replace(/^\s\s*/, '').replace(/\s*\s$/, '');
+}
+
+export function buildParams(obj) {
+  if (!obj) {
+    return ''
+  }
+  const params = []
+  for (const key in obj) {
+    if ({}.hasOwnProperty.call(obj, key)) {
+      const value = obj[key] === undefined ? '' : obj[key]
+      params.push(`${key}=${value}`)
+    }
+  }
+  return params.join('&')
+}

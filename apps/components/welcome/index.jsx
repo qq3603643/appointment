@@ -9,7 +9,7 @@ import { Progress } from 'antd';
 import * as cookie from '../../untils/cookie.jsx';
 
 import user from '../../untils/user.jsx';
-import { fetchJSONByPost } from '../../untils/ajax.jsx';
+import { fetchJSON } from '../../untils/ajax.jsx';
 import { error } from '../../untils/message.jsx';
 
 require('./index.css');
@@ -90,8 +90,22 @@ class Welcome extends React.Component
 		}
 
 		//asyn fetch登录信息
-		let toComplete = this.toComplete.bind(this);
-		fetchJSONByPost('/loginCheck', { userid: userid })
+		let toComplete = this.toComplete.bind(this),
+			cb_error   = () =>
+			{
+				user.setrandomid().setrandomname();
+				error(`同步用户信息失败，你可能需要重新登录 (-_-)/~~~`);
+			},
+			tohome    = (speed) =>
+			{
+				toComplete(speed || 22)
+				.then(() =>
+					{
+						hashHistory.push('home');
+					});
+			};
+
+		fetchJSON('/login/check', { credentials: 'include', method: 'post' })
 			.then(res => res.json())
 			.then(da =>
 			{
@@ -101,26 +115,18 @@ class Welcome extends React.Component
 					if(da.data)
 						user.setid(da.data._id).setname(da.data.username).setdepartment(da.data.department);
 					else
-					{
-						user.setrandomid().setrandomname();
-						error(`同步用户信息失败，你可能需要重新登录 (-_-)/~~~`);
-					}
+						cb_error();
 				}
-				toComplete(22)
-				.then(() =>
-					{
-						hashHistory.push('home');
-					});
+				else
+					cb_error();
+
+				tohome();
 			})
 			.catch((er) =>
 			{
-				error(`同步用户信息失败，你可能需要重新登录 (-_-)/~~~`);
-				user.setrandomid().setrandomname();
-				toComplete(22)
-				.then(() =>
-					{
-						hashHistory.push('home');
-					});
+				cb_error();
+
+				tohome();
 			})
 	}
 	render()
