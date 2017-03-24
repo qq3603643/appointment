@@ -5,6 +5,7 @@ import { Progress, Button, Icon, Popover } from 'antd'
 import { formvisible } from '../../actions/form.jsx';
 import roomContainer from '../../untils/room.jsx';
 import { toMinutes, getHourMin, isoverlap } from '../../untils/common.jsx';
+import { warn as show_warn } from '../../untils/message.jsx';
 
 import { hashHistory } from 'react-router';
 
@@ -28,11 +29,19 @@ class RoomItem extends React.Component
 	}
 	showform(ev)
 	{
-		hashHistory.push('login');
 
-		return;
+		const { formvisible } = this.props,
+			  userid = this.props.users.self;
 
-		const { formvisible } = this.props;
+		if(userid.startsWith('_randomid'))
+		{
+			show_warn('您尚未登录，系统将跳转至登录界面 （#－.－）');
+			setTimeout(() =>
+				{
+					hashHistory.push('login');
+				}, 3000);
+			return;
+		}
 
 		formvisible(!0, ev.currentTarget.getAttribute('data-roomid'));
 	}
@@ -127,6 +136,7 @@ class RoomItem extends React.Component
 
 export default connect((state, props) =>
 	({
+		users: state.appoint.users,
 		rooms: state.appoint.rooms
 	}),
 	(dispatch, ownProps) =>

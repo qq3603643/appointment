@@ -1,11 +1,12 @@
 import React from 'react';
 import { hashHistory } from 'react-router';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import CanvasBodyBackground from '../../untils/canvas_bg.jsx';
 import { sTrim, buildParams } from '../../untils/common.jsx';
 import { error, success } from '../../untils/message.jsx';
 import { fetchJSON } from '../../untils/ajax.jsx';
 
-import user from '../../untils/user.jsx';
+import user from '../../untils/user.jsx';console.log(user)
 
 require('./index.css');
 
@@ -20,6 +21,10 @@ class Login extends React.Component
 	  {
 	  	isAjaxing: !1
 	  };
+	}
+	componentWillMount()
+	{
+		user.goout();
 	}
 	submitHandler(e)
 	{
@@ -53,13 +58,13 @@ class Login extends React.Component
 				{
 					if(da.status == 1 && da.data)
 					{
-						const da = da.data;
-						user.setid(da._id).setname(da.username).setDepartment(da.department);
+						const _d = da.data;
+						user.setid(_d._id).setname(_d.username).setdepartment(_d.department);
 
-						success(`${ da.username }您好 `);
+						success(`${ _d.username }您好 `);
 						setTimeout(() =>
 							{
-
+								hashHistory.push('home');
 							}, 1000)
 					}
 					else
@@ -106,35 +111,39 @@ class Login extends React.Component
 			  });
 
 		return (
-			<Form className="login-form" onSubmit={ this.submitHandler }>
-				<FormItem
-					{ ...formItemLayout }
-					label="用户名"
-					hasFeedback
-					help={ (getFieldError('username') || []).join(',') }
-				>
-					<Input { ...nameprops } placeholder="用户名" />
-				</FormItem>
-
-				<FormItem
-					{ ...formItemLayout }
-					label="密码"
-					hasFeedback
-					help={ (getFieldError('password') || []).join(',') }
-				>
-					<Input type="password" { ...passwordprops } placeholder="密码" />
-				</FormItem>
-				<FormItem
-					wrapperCol={ { span: 20, offset: 4 } }
-				>
-					<Button type="primary" htmlType="button" className="login-form-button"
-							loading={ this.state.isAjaxing }
-							onClick={ this.submitHandler.bind(this) }
+			<div className="login-wrap">
+				<CanvasBodyBackground />
+				<h2 className="tit">登录</h2>
+				<Form className="login-form" onSubmit={ this.submitHandler }>
+					<FormItem
+						{ ...formItemLayout }
+						label="用户名"
+						hasFeedback
+						help={ (getFieldError('username') || []).join(',') }
 					>
-		              Log in
-		            </Button>
-				</FormItem>
+						<Input { ...nameprops } placeholder="用户名" />
+					</FormItem>
+
+					<FormItem
+						{ ...formItemLayout }
+						label="密码"
+						hasFeedback
+						help={ (getFieldError('password') || []).join(',') }
+					>
+						<Input type="password" { ...passwordprops } placeholder="密码" />
+					</FormItem>
+					<FormItem
+						wrapperCol={ { span: 20, offset: 4 } }
+					>
+						<Button type="primary" htmlType="button" className="login-form-button"
+								loading={ this.state.isAjaxing }
+								onClick={ this.submitHandler.bind(this) }
+						>
+			              Log in
+			            </Button>
+					</FormItem>
 			</Form>
+			</div>
 			);
 	}
 }

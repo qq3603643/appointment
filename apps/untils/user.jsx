@@ -71,6 +71,10 @@ User.prototype =
 
 		return this;
 	},
+	goout: function(cb)
+	{
+		this.socket.close();
+	},
 	watchlogin: function(cb)
 	{
 		this.socket.on('login', cb);

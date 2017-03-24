@@ -1,13 +1,29 @@
-.login-form
+html, body
 {
-	display: block;
-	margin: 0 auto;
-	width: 60%;
-	min-width: 300px;
-	max-width: 400px;
-	.login-form-button
+	height: 100%;width: 100%;
+}
+.login-wrap
+{
+	height: 100%;width: 100%;
+	#canvas
 	{
-		display: inline-block;
-		width: 100%;
+		position: absolute;
+	}
+	.tit
+	{
+		text-align: center;
+	}
+	.login-form
+	{
+		display: block;
+		margin: 0 auto;
+		width: 60%;
+		min-width: 300px;
+		max-width: 400px;
+		.login-form-button
+		{
+			display: inline-block;
+			width: 100%;
+		}
 	}
 }
