@@ -11,7 +11,9 @@ html, body
 	}
 	.tit
 	{
+		padding: 100px 0 40px;
 		text-align: center;
+		text-indent: 40px;
 	}
 	.login-form
 	{
