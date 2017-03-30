@@ -66,6 +66,10 @@ User.prototype =
 	},
 	comein: function(userid)
 	{
+		if(this.socket.connected == false)      /* 如果已经断开连接(已退出) 则重新连接 **/
+			this.socket.open();
+ 			// this.socket = createsocket();
+
 		this.setid(userid);
 		this.socket.emit('login', { userid: this.userid });
 

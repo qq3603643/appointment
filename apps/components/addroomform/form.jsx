@@ -17,7 +17,7 @@ class From extends React.Component
 	  this.state =
 	  {
 	  	 roomid: '',
-	  	 username: '',
+	  	 username: 'testName',
 	  	 starttime: (() =>
 	  	 	{
 	  	 		return getHourMin();
@@ -28,6 +28,15 @@ class From extends React.Component
 	  	 	})(),
 	  	 reason: ''
 	  };
+	}
+	componentWillMount()
+	{
+		let { username } = this.props;
+
+		this.setState(
+		{
+			username: username
+		})
 	}
 	usernameHandler(ev)
 	{
@@ -106,6 +115,8 @@ class From extends React.Component
 					<dt className="label"><span className="required">*</span>使用者:</dt>
 					<dd className="control">
 		            	<Input type="text" placeholder="请输入你的名字"
+		            		   value={ this.state.username }
+		            		   disabled={ true }
 		            	       onChange={ this.usernameHandler.bind(this) }
             	        />
 					</dd>
@@ -152,6 +163,7 @@ class From extends React.Component
 export default  connect((state, props) =>
 	({
 		userid: state.appoint.users.self,
+		username: state.appoint.users.selfname,
 		roomid: state.appoint.form.roomid
 	}),
 	(dispatch, ownProps) =>

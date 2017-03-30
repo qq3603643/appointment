@@ -27,7 +27,7 @@ class Hearder extends React.Component
 			return;
 		}
 
-		//sigun out
+		//sigin out
 		user.goout();
 		user.setrandomid().setrandomname();
 
@@ -36,6 +36,8 @@ class Hearder extends React.Component
 		setid();setname();
 		delCookie('userid');
 		info('您已退出登录');
+		//sigin in with guest
+		user.comein(user.userid);
 	}
 	render()
 	{
