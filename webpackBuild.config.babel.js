@@ -29,6 +29,7 @@ config.plugins.push(
   );
 config.plugins.push(
       new webpack.optimize.UglifyJsPlugin({    //压缩
+            sourceMap: false,
             compress: {
               warnings: false,
             }

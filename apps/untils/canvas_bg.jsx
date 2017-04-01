@@ -16,7 +16,9 @@ class CanvasBodyBackground extends React.Component
 	  {
 	  	canvas: null,
 	  	context: null,
-	  	circle_collections: new Array
+	  	circle_collections: new Array,
+	  	centerX: WIDTH / 2,
+	  	centerY: HEIGHT / 2
 	  };
 	}
 	componentDidMount()
@@ -99,8 +101,8 @@ class CanvasBodyBackground extends React.Component
 						this.num(WIDTH),
 						this.num(HEIGHT),
 						this.num(15, 2),
-						this.num(10, -10)/40,
-						this.num(10, -10)/40
+						this.num(60, -60)/60,
+						this.num(60, -60)/60
 					)
     			);
 
@@ -152,11 +154,25 @@ class CanvasBodyBackground extends React.Component
 					let lineLength = Math.sqrt(A*A + B*B);
 					let C = 1/lineLength*7-0.009;
 					let lineOpacity = C > 0.03 ? 0.03 : C;
-					if (lineOpacity > 0)
+					if (lineOpacity > 0.026)
 					{
 						this.drawLine(context, circle_collections[i].x, circle_collections[i].y, circle_collections[i+j].x, circle_collections[i+j].y, lineOpacity);
 					}
 				}
+			}
+
+			let { centerX, centerY } = this.state;
+
+			let C = Math.abs(circle_collections[i].x - centerX),
+				D = Math.abs(circle_collections[i].y - centerY);
+
+			let circleAndCenter = Math.sqrt(C*C + D*D);
+			let E = 1/circleAndCenter*7-0.009;
+			let centerLineOpacity = E > 0.03 ? 0.03 : E;
+
+			if(centerLineOpacity > 0.01)
+			{
+				this.drawLine(context, circle_collections[i].x, circle_collections[i].y, centerX, centerY, centerLineOpacity)
 			}
 		}
 	}
@@ -185,10 +201,18 @@ class CanvasBodyBackground extends React.Component
 				this.createLine();
 			}, 0);
 	}
+	changeCenter(ev)
+	{
+		this.setState(
+		{
+			centerX: ev.clientX,
+			centerY: ev.clientY
+		})
+	}
 	render()
 	{
 		return (
-				<canvas id="canvas" ref="canvas"></canvas>
+				<canvas id="canvas" ref="canvas" onMouseMove={ this.changeCenter.bind(this) }></canvas>
 			);
 	}
 }
